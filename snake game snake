@@ -1,0 +1,45 @@
+from turtle import Turtle
+
+position = [(0, 0), (-20, 0), (-40, 0)]
+
+
+class Snake:
+    def __init__(self):
+        self.my_list = []
+        self.create_snake()
+        self.head = self.my_list[0]
+
+    def create_snake(self):
+        for i in position:
+            self.add_segments(i)
+
+
+
+    def move(self):
+        for r in range(len(self.my_list) - 1, 0, -1):
+            new_x = self.my_list[r - 1].xcor()
+            new_y = self.my_list[r - 1].ycor()
+            self.my_list[r].goto(new_x, new_y)
+        self.head.forward(20)
+
+    def extend(self):
+        self.add_segments(self.my_list[-1].position())
+
+    def add_segments(self, i):
+        tim = Turtle("square")
+        tim.penup()
+        tim.color("white")
+        tim.goto(i)
+        self.my_list.append(tim)
+
+    def up(self):
+        self.head.setheading(90)
+
+    def down(self):
+        self.head.setheading(270)
+
+    def left(self):
+        self.head.setheading(180)
+
+    def right(self):
+        self.head.setheading(0)
