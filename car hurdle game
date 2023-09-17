@@ -1,0 +1,82 @@
+from turtle import Turtle, Screen
+import random
+import time
+
+screen = Screen()
+screen.setup(width=600, height=400)
+screen.bgcolor("White")
+screen.listen()
+screen.tracer(0)
+colors = ["black", "red", "blue", "yellow", "green", "pink", "brown"]
+move = [5, 10, 20]
+
+
+class Car:
+    def __init__(self):
+        self.my_list = []
+
+    def new_car(self):
+        num = random.randint(1, 4)
+        if num == 1:
+            tim = Turtle()
+            tim.color(random.choice(colors))
+            tim.shape("square")
+            tim.shapesize(stretch_len=2, stretch_wid=1)
+            tim.penup()
+            tim.setheading(90)
+            tim.goto(x=random.randint(-280, 280), y=-180)
+            self.my_list.append(tim)
+
+    def move(self):
+        for i in self.my_list:
+            i.forward(random.choice(move))
+
+
+class Player(Turtle):
+    def __init__(self):
+        super().__init__()
+        self.shape("turtle")
+        self.color("grey")
+        self.penup()
+        self.goto(x=280, y=0)
+        self.setheading(180)
+
+    def ahead(self):
+        self.forward(10)
+
+
+class Text(Turtle):
+    def __init__(self):
+        super().__init__()
+        self.hideturtle()
+
+    def message(self):
+        self.hideturtle()
+        self.color("black")
+        self.write(arg="Game over dude!", align="center")
+    def message2(self):
+        self.hideturtle()
+        self.color("black")
+        self.write(arg="Great dude, You win!", align="center")
+
+
+game = True
+car = Car()
+player = Player()
+text = Text()
+screen.onkey(player.ahead, "Left")
+while game:
+    time.sleep(0.1)
+    screen.update()
+    car.new_car()
+    car.move()
+    for x in car.my_list:
+        if x.distance(player) < 20:
+            print("Game over dude!")
+            text.message()
+            game = False
+    if player.xcor() < -250:
+        text.message2()
+        game = False
+
+screen.exitonclick()
